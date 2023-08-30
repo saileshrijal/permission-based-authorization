@@ -1,0 +1,25 @@
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using permission_based_authorization.Constants
+<h1>Product Management</h1>
+<br />
+
+<a class="btn btn-success" asp-controller="Product" asp-action="Create">Go to Create View</a> (only for users with Create permission)
+<br>
+<br><br>
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Products.Create)).Result.Succeeded)
+{
+    <button class="btn btn-success">Create</button>
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Products.View)).Result.Succeeded)
+{
+    <button class="btn btn-info">View</button>
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Products.Edit)).Result.Succeeded)
+{
+    <button class="btn btn-warning">Modify</button>
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Products.Delete)).Result.Succeeded)
+{
+    <button class="btn btn-danger">Delete</button>
+}
